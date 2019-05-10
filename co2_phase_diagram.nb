@@ -10,17 +10,573 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[       765,         33]
-NotebookOptionsPosition[       560,         21]
-NotebookOutlinePosition[       904,         36]
-CellTagsIndexPosition[       861,         33]
+NotebookDataLength[     20469,        637]
+NotebookOptionsPosition[     18762,        577]
+NotebookOutlinePosition[     19104,        592]
+CellTagsIndexPosition[     19061,        589]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
+Cell["CO2 Phase Diagram", "Title",
+ CellChangeTimes->{{3.766171115195342*^9, 3.7661711186790104`*^9}}],
+
+Cell["\<\
+PC-SAFT (Perturbed-Chain Statistical Associating Fluid Theory)\
+\>", "Subtitle",
+ CellChangeTimes->{{3.766171121135342*^9, 3.7661711344505033`*^9}}],
+
+Cell["\<\
+Andy Ylitalo, with guidance from Dr. Huikuan Chao and mentorship from Prof. \
+Zhen-Gang Wang\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.76617114052406*^9, 3.7661711558771763`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["0. Setup", "Section",
+ CellChangeTimes->{{3.7664366427323756`*^9, 3.766436646161707*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<C:\>\"", ",", "\"\<Users\>\"", ",", "\"\<Andy.DESKTOP-CFRG05F\>\"", 
+      ",", "\"\<OneDrive - California Institute of Technology\>\"", ",", " ", 
+      "\"\<Documents\>\"", ",", " ", "\"\<Research\>\"", ",", " ", 
+      "\"\<Wang\>\"", ",", " ", "\"\<PC-SAFT\>\""}], "}"}], "]"}], "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.766436649632274*^9, 3.7664367319724555`*^9}, {
+   3.766437154420802*^9, 3.7664372330614023`*^9}, {3.766437450288994*^9, 
+   3.7664374718696346`*^9}, 3.766437523104933*^9, {3.766437596139181*^9, 
+   3.766437635410695*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["1. Equations", "Section",
+ CellChangeTimes->{{3.766171165943899*^9, 3.766171173160204*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Free energy of ideal gas", "Subsection",
+ CellChangeTimes->{{3.766171233515663*^9, 3.7661712341291666`*^9}, {
+  3.766173490817514*^9, 3.766173493167342*^9}, {3.766174768164322*^9, 
+  3.766174769834175*^9}, {3.7664390361034045`*^9, 3.766439036760029*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Beta]fIG", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Beta]_", ",", 
+     RowBox[{"m_:", "7.31*^-26"}]}], "]"}], ":=", 
+   RowBox[{"With", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"h", "=", "6.626*^-34"}], "}"}], ",", " ", 
+     RowBox[{"\[Rho]", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Log", "[", 
+         RowBox[{"\[Rho]", " ", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"h", "/", 
+             RowBox[{"Sqrt", "[", 
+              RowBox[{"2", "\[Pi]", " ", 
+               RowBox[{"m", "/", "\[Beta]"}]}], "]"}]}], ")"}], "^", "3"}]}], 
+         "]"}], "-", "1"}], ")"}]}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766173495360677*^9, 3.7661735646375465`*^9}, {
+  3.7661740527076983`*^9, 3.766174096833743*^9}, {3.7661741366484365`*^9, 
+  3.7661741395388265`*^9}, {3.766174173677554*^9, 3.7661741742419634`*^9}, {
+  3.7661745534022655`*^9, 3.7661745894624033`*^9}, {3.766174738884039*^9, 
+  3.766174762853978*^9}, {3.766176158706545*^9, 3.7661761778263755`*^9}, {
+  3.766176241130987*^9, 3.766176293551489*^9}}],
+
+Cell["\<\
+Cubed expression is the thermal de Broglie wavelength, \[Lambda]_T = h / \
+Sqrt[2 \[Pi] m k T].\
+\>", "Text",
+ CellChangeTimes->{{3.7661747732541103`*^9, 3.7661748095980577`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Free energy of hard-sphere liquid", "Subsection",
+ CellChangeTimes->{{3.7661741080583067`*^9, 3.766174157628705*^9}}],
+
+Cell["\<\
+Note that \[Xi][\[Rho],\[Sigma],3] represents the total packing fraction.\
+\>", "Text",
+ CellChangeTimes->{{3.766438941825284*^9, 3.766438953235751*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Xi]", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_", ",", "j_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"\[Pi]", "/", "6"}], " ", "\[Rho]", " ", 
+    RowBox[{"\[Sigma]", "^", "j"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766174455815523*^9, 3.7661744951115713`*^9}, {
+  3.766176313221929*^9, 3.7661763254382534`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Beta]fHS", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"6", "/", "\[Pi]"}], 
+    RowBox[{"(", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"3", " ", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "1"}], "]"}], 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "2"}], "]"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}]}], 
+      "\[IndentingNewLine]", "+", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "2"}], "]"}], ")"}], "^", 
+        "3"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "-", 
+            RowBox[{"\[Xi]", "[", 
+             RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], 
+          "^", "2"}]}], ")"}]}], "\[IndentingNewLine]", "+", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"\[Xi]", "[", 
+             RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "2"}], "]"}], ")"}], "^",
+            "3"}], "/", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"\[Xi]", "[", 
+             RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^",
+            "2"}]}], "-", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "0"}], "]"}]}], ")"}], 
+       RowBox[{"Log", "[", 
+        RowBox[{"1", "-", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], "]"}]}]}], 
+     " ", ")"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766174160022661*^9, 3.766174171388861*^9}, {
+  3.766174256683544*^9, 3.766174449311809*^9}, {3.766174502081717*^9, 
+  3.766174505141653*^9}, {3.7661748429549804`*^9, 3.7661748456350355`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Free energy of association", "Subsection",
+ CellChangeTimes->{{3.766174906096306*^9, 3.7661749100152345`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"gii", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"1", "/", 
+     RowBox[{"(", 
+      RowBox[{"1", "-", 
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}]}], "+", 
+    " ", 
+    RowBox[{"3", 
+     RowBox[{"\[Xi]", "[", 
+      RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "2"}], "]"}], " ", 
+     RowBox[{"\[Sigma]", " ", "/", " ", 
+      RowBox[{"(", 
+       RowBox[{"2", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], 
+         "^", "2"}]}], ")"}]}]}], "+", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"\[Xi]", "[", 
+        RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "2"}], "]"}], ")"}], "^", 
+      "2"}], 
+     RowBox[{
+      RowBox[{"\[Sigma]", "^", "2"}], " ", "/", " ", 
+      RowBox[{"(", 
+       RowBox[{"2", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], 
+         "^", "3"}]}], ")"}]}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766175024721139*^9, 3.766175121639538*^9}, {
+  3.766175194839213*^9, 3.7661751978986387`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Beta]fAssoc", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_", ",", 
+     RowBox[{"N_:", "2"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{"N", "-", "1"}], ")"}]}], "/", "N"}], " ", "\[Rho]", " ", 
+    RowBox[{"Log", "[", 
+     RowBox[{"gii", "[", 
+      RowBox[{"\[Rho]", ",", "\[Sigma]"}], "]"}], "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7661749496877813`*^9, 3.766175019246869*^9}, {
+  3.7661764607830925`*^9, 3.7661764676288548`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Free energy of dispersion", "Subsection",
+ CellChangeTimes->{{3.766175210819456*^9, 3.7661752339640107`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"JConstants", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Data\>\"", ",", "\"\<J_integral_const_a_b.csv\>\""}], 
+      "}"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7664369419245267`*^9, 3.766436954757347*^9}, {
+  3.7664376534873466`*^9, 3.766437653795168*^9}, {3.766438266219169*^9, 
+  3.766438278987294*^9}, {3.7664383576049814`*^9, 3.7664384019099617`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a0", "=", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "2"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a1", " ", "=", " ", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "3"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a2", " ", "=", " ", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "4"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b0", " ", "=", " ", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "5"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b1", " ", "=", " ", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "6"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"b2", " ", "=", " ", 
+   RowBox[{"JConstants", "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", ";;", 
+       RowBox[{"-", "1"}]}], ",", " ", "7"}], "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7664384033871202`*^9, 3.7664384693527374`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"a", "[", "N_", "]"}], ":=", " ", 
+   RowBox[{"a0", " ", "+", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"N", "-", "1"}], ")"}], "/", "N"}], " ", "a1"}], " ", "+", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"N", "-", "1"}], ")"}], "/", "N"}], ")"}], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"N", "-", "2"}], ")"}], "/", "N"}], ")"}], "a2"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"b", "[", "N_", "]"}], ":=", " ", 
+   RowBox[{"b0", " ", "+", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"N", "-", "1"}], ")"}], "/", "N"}], " ", "b1"}], " ", "+", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"N", "-", "1"}], ")"}], "/", "N"}], ")"}], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"N", "-", "2"}], ")"}], "/", "N"}], ")"}], "b2"}]}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.766438559609538*^9, 3.7664386241090984`*^9}, {
+  3.7664387629853544`*^9, 3.7664387890500956`*^9}, {3.76643897929191*^9, 
+  3.766439002765489*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"J1", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_", ",", "N_"}], "]"}], ":=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"a", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+       RowBox[{"(", 
+        RowBox[{"i", "-", "1"}], ")"}]}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "a", "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"J2", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_", ",", "N_"}], "]"}], ":=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"b", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\[Xi]", "[", 
+         RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+       RowBox[{"(", 
+        RowBox[{"i", "-", "1"}], ")"}]}]}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "a", "]"}]}], "}"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7661752374026213`*^9, 3.7661752430499077`*^9}, {
+  3.766176373765312*^9, 3.7661765329294624`*^9}, {3.7661765909205303`*^9, 
+  3.766176601720431*^9}, {3.7661766334367704`*^9, 3.7661766690852737`*^9}, {
+  3.766436041192528*^9, 3.7664360657014275`*^9}, {3.766438635617507*^9, 
+  3.7664387304939384`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"M", "[", 
+    RowBox[{"\[Rho]_", ",", "\[Sigma]_", ",", "N_"}], "]"}], ":=", 
+   RowBox[{"1", "+", 
+    RowBox[{"N", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"8", " ", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], " ", "-", 
+        " ", 
+        RowBox[{"2", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+          "2"}]}]}], ")"}], "/", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], "^", 
+       "2"}]}]}], " ", "+", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"1", "-", "N"}], ")"}], 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"20", " ", 
+         RowBox[{"\[Xi]", "[", 
+          RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], " ", "-", 
+        " ", 
+        RowBox[{"27", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+          "2"}]}], " ", "+", " ", 
+        RowBox[{"12", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+          "3"}]}], " ", "-", " ", 
+        RowBox[{"2", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}], ")"}], "^", 
+          "4"}]}]}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], 
+         "^", "2"}], 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"2", "-", 
+           RowBox[{"\[Xi]", "[", 
+            RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "3"}], "]"}]}], ")"}], 
+         "^", "2"}]}], ")"}]}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766438737231091*^9, 3.766438737553897*^9}, {
+  3.7664387977801*^9, 3.7664388990277867`*^9}, {3.7664389611692085`*^9, 
+  3.7664389617378836`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Beta]fDisp", "[", 
+    RowBox[{
+    "\[Rho]_", ",", "\[Sigma]_", ",", "\[Beta]_", ",", "\[Epsilon]_", ",", 
+     RowBox[{"N_:", "2"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"-", "\[Pi]"}], " ", 
+    RowBox[{"\[Rho]", "^", "2"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"2", " ", 
+       RowBox[{"J1", "[", 
+        RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "N"}], "]"}], " ", "\[Beta]", 
+       " ", "\[Epsilon]"}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"N", " ", "/", 
+        RowBox[{"M", "[", 
+         RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "N"}], "]"}]}], " ", 
+       RowBox[{"J2", "[", 
+        RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "N"}], "]"}], " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\[Beta]", " ", "\[Epsilon]"}], ")"}], "^", "2"}]}]}], ")"}],
+     " ", 
+    RowBox[{"\[Sigma]", "^", "3"}]}]}], ";"}]], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Total Free Energy", "Subsection",
+ CellChangeTimes->{{3.7664391165434985`*^9, 3.7664391199245777`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Beta]f", "[", 
+    RowBox[{
+    "\[Rho]_", ",", "\[Sigma]_", ",", "\[Beta]_", ",", "\[Epsilon]_", ",", 
+     RowBox[{"N_:", "2"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"\[Beta]fIG", "[", 
+     RowBox[{"\[Rho]", ",", "\[Beta]"}], "]"}], "+", 
+    RowBox[{"\[Beta]fHS", "[", 
+     RowBox[{"\[Rho]", ",", "\[Sigma]"}], "]"}], "+", 
+    RowBox[{"\[Beta]fAssoc", "[", 
+     RowBox[{"\[Rho]", ",", "\[Sigma]", ",", "N"}], "]"}], "+", 
+    RowBox[{"\[Beta]fDisp", "[", 
+     RowBox[{
+     "\[Rho]", ",", "\[Sigma]", ",", "\[Beta]", ",", "\[Epsilon]", ",", "N"}],
+      "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766439121586608*^9, 3.7664391818260727`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Chemical potential--does this way of defining it work? Seems like variables \
+aren\[CloseCurlyQuote]t being recognize...\
+\>", "Subsection",
+ CellChangeTimes->{{3.7664392169199877`*^9, 3.766439222786623*^9}, {
+  3.7664394123047304`*^9, 3.766439424689309*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Mu]", "[", 
+    RowBox[{
+    "\[Rho]_", ",", "\[Sigma]_", ",", "\[Beta]_", ",", "\[Epsilon]_", ",", 
+     RowBox[{"N_:", "2"}]}], "]"}], "=", 
+   RowBox[{"D", "[", 
+    RowBox[{
+     RowBox[{"\[Beta]f", "[", 
+      RowBox[{
+      "\[Rho]", ",", "\[Sigma]", ",", "\[Beta]", ",", "\[Epsilon]", ",", 
+       "N"}], "]"}], ",", "\[Rho]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.766439225411137*^9, 3.7664392466659546`*^9}, {
+  3.7664393668424597`*^9, 3.7664393896537*^9}}]
+}, Open  ]],
+
+Cell["\<\
+Now what? How do I fit the parameters to CO2? Perhaps I should start with the \
+parameters Huikuan gave in his model\
+\>", "Subsection",
+ CellChangeTimes->{{3.7664394281193423`*^9, 3.766439446366357*^9}}]
+}, Open  ]],
+
+Cell["2. Numerical Solving", "Section",
+ CellChangeTimes->{{3.766171239583239*^9, 3.7661712519377613`*^9}}],
+
+Cell["\<\
+3. Sanity Checks (thermodynamic relations)\
+\>", "Section",
+ CellChangeTimes->{{3.7661712564080143`*^9, 3.766171272863637*^9}}]
+}, Open  ]]
 },
-WindowSize->{707, 456},
-WindowMargins->{{155, Automatic}, {Automatic, 19}},
+WindowSize->{1264, 583},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (October 6, 2011)",
 StyleDefinitions->"Default.nb"
 ]
@@ -35,9 +591,56 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 102, 1, 83, "Title"],
+Cell[684, 25, 158, 3, 49, "Subtitle"],
+Cell[845, 30, 190, 4, 28, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[1060, 38, 95, 1, 71, "Section"],
+Cell[1158, 41, 684, 14, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1879, 60, 97, 1, 71, "Section"],
+Cell[CellGroupData[{
+Cell[2001, 65, 260, 3, 36, "Subsection"],
+Cell[2264, 70, 1114, 27, 31, "Input"],
+Cell[3381, 99, 189, 4, 29, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3607, 108, 123, 1, 36, "Subsection"],
+Cell[3733, 111, 163, 3, 29, "Text"],
+Cell[3899, 116, 370, 9, 31, "Input"],
+Cell[4272, 127, 2203, 60, 72, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6512, 192, 116, 1, 36, "Subsection"],
+Cell[6631, 195, 1357, 41, 31, "Input"],
+Cell[7991, 238, 546, 15, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8574, 258, 115, 1, 36, "Subsection"],
+Cell[8692, 261, 471, 10, 31, "Input"],
+Cell[9166, 273, 1420, 48, 132, "Input"],
+Cell[10589, 323, 1200, 39, 52, "Input"],
+Cell[11792, 364, 1506, 42, 52, "Input"],
+Cell[13301, 408, 2341, 70, 52, "Input"],
+Cell[15645, 480, 916, 26, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16598, 511, 109, 1, 36, "Subsection"],
+Cell[16710, 514, 709, 18, 31, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17456, 537, 269, 5, 36, "Subsection"],
+Cell[17728, 544, 527, 14, 31, "Input"]
+}, Open  ]],
+Cell[18270, 561, 214, 4, 36, "Subsection"]
+}, Open  ]],
+Cell[18499, 568, 107, 1, 71, "Section"],
+Cell[18609, 571, 137, 3, 41, "Section"]
+}, Open  ]]
 }
 ]
 *)
 
 (* End of internal cache information *)
-
